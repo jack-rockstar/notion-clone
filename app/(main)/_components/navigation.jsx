@@ -1,7 +1,9 @@
 'use client'
 
+import { api } from '@/convex/_generated/api'
 import { useMediaQuery } from '@/hooks/use-media-query'
 import { cn } from '@/lib/utils'
+import { useQuery } from 'convex/react'
 import { ChevronsLeft, MenuIcon } from 'lucide-react'
 import { usePathname } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
@@ -12,6 +14,7 @@ export default function Navigation() {
   const isMobile = useMediaQuery('(max-width: 768px)')
   const [isResetting, setIsResetting] = useState(false)
   const [isCollapsed, setIsCollapsed] = useState(isMobile)
+  const documents = useQuery(api.documents.get)
   const isResizingRef = useRef(false)
   const sidebarRef = useRef(null)
   const navbarRef = useRef(null)
@@ -97,7 +100,9 @@ export default function Navigation() {
           <UserItem />
         </div>
         <div className='mt-4'>
-          <p>Documents</p>
+          {documents?.map((e) => (
+            <p key={e._id}>{e.title}</p>
+          ))}
         </div>
         <ScrollResizing onMouseDown={handleMouseDown} onClick={resetWidth} />
       </aside>
