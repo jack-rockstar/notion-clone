@@ -3,10 +3,13 @@
 import { api } from '@/convex/_generated/api'
 import { useMediaQuery } from '@/hooks/use-media-query'
 import { cn } from '@/lib/utils'
-import { useQuery } from 'convex/react'
-import { ChevronsLeft, MenuIcon } from 'lucide-react'
+import { useMutation } from 'convex/react'
+import { ChevronsLeft, MenuIcon, PlusCircle, Search, Settings } from 'lucide-react'
 import { usePathname } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
+import { toast } from 'sonner'
+import DocumentList from './document-list'
+import Item from './item'
 import UserItem from './user-item'
 
 export default function Navigation() {
@@ -14,7 +17,7 @@ export default function Navigation() {
   const isMobile = useMediaQuery('(max-width: 768px)')
   const [isResetting, setIsResetting] = useState(false)
   const [isCollapsed, setIsCollapsed] = useState(isMobile)
-  const documents = useQuery(api.documents.get)
+  const createDocument = useMutation(api.documents.create)
   const isResizingRef = useRef(false)
   const sidebarRef = useRef(null)
   const navbarRef = useRef(null)
@@ -84,6 +87,15 @@ export default function Navigation() {
     }
   }
 
+  const handleCreateDoc = () => {
+    const promise = createDocument({ title: 'Untitled' })
+    toast.promise(promise, {
+      loading: 'Creating new note...',
+      success: 'New note created!',
+      error: 'Failed to create new note.'
+    })
+  }
+
   return (
     <>
       <aside
@@ -98,11 +110,16 @@ export default function Navigation() {
         <MenuCollpase isMobile={isMobile} onClick={handleCollapse} />
         <div>
           <UserItem />
+          <Item label='Search' icon={Search} isSearch onClick={() => {}} />
+          <Item label='Setting' icon={Settings} onClick={() => {}} />
+          <Item
+            onClick={handleCreateDoc}
+            label='New page'
+            icon={PlusCircle}
+          />
         </div>
         <div className='mt-4'>
-          {documents?.map((e) => (
-            <p key={e._id}>{e.title}</p>
-          ))}
+          <DocumentList />
         </div>
         <ScrollResizing onMouseDown={handleMouseDown} onClick={resetWidth} />
       </aside>
