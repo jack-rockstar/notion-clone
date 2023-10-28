@@ -9,7 +9,10 @@ const inter = Inter({ subsets: ['latin'] })
 export const metadata = {
   title: 'Nocion',
   description: 'el espacio de trabajo conectado donde se puede trabajar mejor y más rápido.',
+  manifest: '/manifest.json',
+  themeColor: '#000000',
   icons: {
+    apple: '/icon.png',
     icon: [
       {
         media: '(prefers-color-scheme: light)',
