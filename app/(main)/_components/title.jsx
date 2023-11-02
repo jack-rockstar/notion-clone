@@ -76,6 +76,6 @@ export default function Title({ initialDate }) {
 
 Title.Skeleton = function TitleSkeleton() {
   return (
-    <Skeleton className='w-16 rounded-md h-9' />
+    <Skeleton className='w-20 h-4 rounded-md' />
   )
 }
