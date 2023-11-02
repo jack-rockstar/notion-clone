@@ -2,6 +2,7 @@
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { Skeleton } from '@/components/ui/skeleton'
 import { api } from '@/convex/_generated/api'
 import { useMutation } from 'convex/react'
 import { useRef, useState } from 'react'
@@ -70,5 +71,11 @@ export default function Title({ initialDate }) {
           </Button>
           )}
     </div>
+  )
+}
+
+Title.Skeleton = function TitleSkeleton() {
+  return (
+    <Skeleton className='w-16 rounded-md h-9' />
   )
 }
