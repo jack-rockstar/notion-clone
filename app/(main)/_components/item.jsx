@@ -30,7 +30,7 @@ export default function Item({ label, onClick, icon: Icon, active, id, documentI
         if (!expanded) {
           onExpanded?.()
         }
-        // router.push(`/documents/${docId}`)
+        router.push(`/documents/${docId}`)
       })
 
     toast.promise(promise, {
