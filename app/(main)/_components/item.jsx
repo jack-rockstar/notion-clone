@@ -63,7 +63,7 @@ export default function Item({ label, onClick, icon: Icon, active, id, documentI
     >
       {!!id && (
         <article
-          className='h-full mr-1 rounded-sm hover:bg-neutral-300 dark:bg-neutral-600'
+          className='h-full mr-1 rounded-sm hover:bg-neutral-300 dark:hover:bg-neutral-600'
           role='button'
           onClick={handleExpand}
         >
