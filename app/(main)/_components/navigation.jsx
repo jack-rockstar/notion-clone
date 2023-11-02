@@ -3,6 +3,7 @@
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { api } from '@/convex/_generated/api'
 import { useMediaQuery } from '@/hooks/use-media-query'
+import { useSearch } from '@/hooks/use-search'
 import { cn } from '@/lib/utils'
 import { useMutation } from 'convex/react'
 import { ChevronsLeft, MenuIcon, Plus, PlusCircle, Search, Settings, Trash } from 'lucide-react'
@@ -16,6 +17,7 @@ import UserItem from './user-item'
 
 export default function Navigation() {
   const pathname = usePathname()
+  const search = useSearch()
   const isMobile = useMediaQuery('(max-width: 768px)')
   const [isResetting, setIsResetting] = useState(false)
   const [isCollapsed, setIsCollapsed] = useState(isMobile)
@@ -33,17 +35,14 @@ export default function Navigation() {
   }, [pathname, isMobile])
 
   const handleMouseUp = (e) => {
-    console.log('hola up')
     isResizingRef.current = false
     document.removeEventListener('mousemove', handleMouseMove)
     document.removeEventListener('mouseup', handleMouseUp)
   }
 
   const handleMouseMove = (e) => {
-    console.log('hola move')
     if (!isResizingRef.current) return
     let newWidth = e.clientX
-    console.log({ newWidth })
 
     if (newWidth < 240) newWidth = 240
     if (newWidth > 480) newWidth = 480
@@ -98,6 +97,8 @@ export default function Navigation() {
     })
   }
 
+  const handleSearch = () => search.onOpen()
+
   return (
     <>
       <aside
@@ -112,7 +113,7 @@ export default function Navigation() {
         <MenuCollpase isMobile={isMobile} onClick={handleCollapse} />
         <div>
           <UserItem />
-          <Item label='Search' icon={Search} isSearch onClick={() => {}} />
+          <Item label='Search' icon={Search} isSearch onClick={handleSearch} />
           <Item label='Setting' icon={Settings} onClick={() => {}} />
           <Item
             onClick={handleCreateDoc}
