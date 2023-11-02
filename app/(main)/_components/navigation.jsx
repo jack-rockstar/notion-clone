@@ -8,16 +8,18 @@ import { useSetting } from '@/hooks/use-setting'
 import { cn } from '@/lib/utils'
 import { useMutation } from 'convex/react'
 import { ChevronsLeft, MenuIcon, Plus, PlusCircle, Search, Settings, Trash } from 'lucide-react'
-import { usePathname } from 'next/navigation'
+import { useParams, usePathname } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 import { toast } from 'sonner'
 import DocumentList from './document-list'
 import Item from './item'
+import Navbar from './navbar'
 import Trashbox from './trash-box'
 import UserItem from './user-item'
 
 export default function Navigation() {
   const pathname = usePathname()
+  const params = useParams()
   const search = useSearch()
   const setting = useSetting()
   const isMobile = useMediaQuery('(max-width: 768px)')
@@ -154,9 +156,14 @@ export default function Navigation() {
           isMobile && 'left-0 w-full'
         )}
       >
-        <nav className='w-full px-3 py-2 bg-transparent'>
-          {isCollapsed && <MenuIcon role='button' onClick={resetWidth} className='w-6 h-6 text-muted-foreground' />}
-        </nav>
+        {params.documentId
+          ? <Navbar isCollapsed={isCollapsed} onResetWidth={resetWidth} />
+          : (
+            <nav className='w-full px-3 py-2 bg-transparent'>
+              {isCollapsed && <MenuIcon role='button' onClick={resetWidth} className='w-6 h-6 text-muted-foreground' />}
+            </nav>
+            )}
+
       </div>
     </>
   )

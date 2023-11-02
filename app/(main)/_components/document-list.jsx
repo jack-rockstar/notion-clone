@@ -24,8 +24,6 @@ export default function DocumentList({ parentDocumentId, level = 0 }) {
 
   const onRedirect = (documentId) => router.push(`/documents/${documentId}`)
 
-  console.log({ params })
-
   if (!documents) {
     return (
       <>
