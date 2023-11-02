@@ -4,6 +4,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { api } from '@/convex/_generated/api'
 import { useMediaQuery } from '@/hooks/use-media-query'
 import { useSearch } from '@/hooks/use-search'
+import { useSetting } from '@/hooks/use-setting'
 import { cn } from '@/lib/utils'
 import { useMutation } from 'convex/react'
 import { ChevronsLeft, MenuIcon, Plus, PlusCircle, Search, Settings, Trash } from 'lucide-react'
@@ -18,6 +19,7 @@ import UserItem from './user-item'
 export default function Navigation() {
   const pathname = usePathname()
   const search = useSearch()
+  const setting = useSetting()
   const isMobile = useMediaQuery('(max-width: 768px)')
   const [isResetting, setIsResetting] = useState(false)
   const [isCollapsed, setIsCollapsed] = useState(isMobile)
@@ -99,6 +101,8 @@ export default function Navigation() {
 
   const handleSearch = () => search.onOpen()
 
+  const handleSetting = () => setting.onOpen()
+
   return (
     <>
       <aside
@@ -114,7 +118,7 @@ export default function Navigation() {
         <div>
           <UserItem />
           <Item label='Search' icon={Search} isSearch onClick={handleSearch} />
-          <Item label='Setting' icon={Settings} onClick={() => {}} />
+          <Item label='Setting' icon={Settings} onClick={handleSetting} />
           <Item
             onClick={handleCreateDoc}
             label='New page'
