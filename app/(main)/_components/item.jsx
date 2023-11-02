@@ -1,16 +1,20 @@
 'use client'
 
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { Skeleton } from '@/components/ui/skeleton'
 import { api } from '@/convex/_generated/api'
 import { cn } from '@/lib/utils'
+import { useUser } from '@clerk/clerk-react'
 import { useMutation } from 'convex/react'
-import { ChevronDown, ChevronRight, Plus } from 'lucide-react'
+import { ChevronDown, ChevronRight, MoreHorizontal, Plus, Trash } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 
 export default function Item({ label, onClick, icon: Icon, active, id, documentIcon, isSearch, level = 0, onExpanded, expanded }) {
+  const { user } = useUser()
   const ChevronIcon = expanded ? ChevronDown : ChevronRight
   const create = useMutation(api.documents.create)
+  const archive = useMutation(api.documents.archive)
   const router = useRouter()
   const handleExpand = (e) => {
     e.stopPropagation()
@@ -26,13 +30,25 @@ export default function Item({ label, onClick, icon: Icon, active, id, documentI
         if (!expanded) {
           onExpanded?.()
         }
-        // router.push(`/documents/${docId}`)
+        router.push(`/documents/${docId}`)
       })
 
     toast.promise(promise, {
       loading: 'Creating new note...',
       success: 'New note created',
       error: 'Failed to create a new note'
+    })
+  }
+
+  const onArchived = (e) => {
+    e.stopPropagation()
+    if (!id) return
+
+    const promise = archive({ id })
+    toast.promise(promise, {
+      loading: 'Moving to trash...',
+      success: 'Note moved to trash!',
+      error: 'Failed to archive note.'
     })
   }
 
@@ -65,13 +81,38 @@ export default function Item({ label, onClick, icon: Icon, active, id, documentI
       {
         isSearch && (
           <kbd className='ml-auto pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100'>
-            <span className='text-xs'>&</span>K
+            <span className='text-xs'>⌘</span>K
           </kbd>
         )
       }
       {
         !!id && (
           <div className='flex items-center ml-auto gap-x-2'>
+            <DropdownMenu>
+              <DropdownMenuTrigger
+                onClick={(e) => e.stopPropagation()}
+                asChild
+              >
+                <div role='button' className='h-full ml-auto rounded-sm opacity-0 group-hover:opacity-100 hover:bg-neutral-300 dark:hover:bg-neutral-600'>
+                  <MoreHorizontal className='w-4 h-4 text-muted-foreground' />
+                </div>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent
+                className='w-60'
+                align='start'
+                side='rigth'
+                forceMount
+              >
+                <DropdownMenuItem onClick={onArchived}>
+                  <Trash className='w-4 h-4 mr-2' />
+                  Delete
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <div className='p-2 text-xs text-muted-foreground'>
+                  Last edited by: {user?.fullName}
+                </div>
+              </DropdownMenuContent>
+            </DropdownMenu>
             <section role='button' onClick={onCreate} className='h-full ml-auto rounded-sm opacity-0 group-hover:opacity-100 hover:bg-neutral-300 dark:hover:bg-neutral-600'>
               <Plus className='w-4 h-4 text-muted-foreground' />
             </section>
