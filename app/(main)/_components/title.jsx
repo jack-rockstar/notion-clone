@@ -7,14 +7,14 @@ import { api } from '@/convex/_generated/api'
 import { useMutation } from 'convex/react'
 import { useRef, useState } from 'react'
 
-export default function Title({ initialDate }) {
+export default function Title({ initialData }) {
   const [isEditing, setIsEditing] = useState(false)
-  const [title, setTitle] = useState(initialDate?.title || 'Untitled')
+  const [title, setTitle] = useState(initialData?.title || 'Untitled')
   const inputRef = useRef(null)
   const update = useMutation(api.documents.update)
 
   const enabledInput = () => {
-    setTitle(initialDate.title)
+    setTitle(initialData.title)
     setIsEditing(true)
 
     setTimeout(() => {
@@ -30,7 +30,7 @@ export default function Title({ initialDate }) {
   const onChange = (e) => {
     setTitle(e.target.value)
     update({
-      id: initialDate._id,
+      id: initialData._id,
       title: e.target.value || 'Untitled'
     })
   }
@@ -44,7 +44,7 @@ export default function Title({ initialDate }) {
   return (
     <div className='flex items-center gap-x-1'>
       {
-        !!initialDate.icon && <p>{initialDate.icon}</p>
+        !!initialData.icon && <p>{initialData.icon}</p>
       }
       {isEditing
         ? (
@@ -66,7 +66,7 @@ export default function Title({ initialDate }) {
             className='h-auto p-1 font-normal'
           >
             <span className='truncate'>
-              {initialDate?.title}
+              {initialData?.title}
             </span>
           </Button>
           )}
