@@ -1,6 +1,7 @@
 'use client'
 
 import { api } from '@/convex/_generated/api'
+import { useCoverImage } from '@/hooks/use-cover-image'
 import { useMutation } from 'convex/react'
 import { ImageIcon, Smile, X } from 'lucide-react'
 import { useRef, useState } from 'react'
@@ -15,6 +16,7 @@ export default function Toolbar({ initialData, preview }) {
 
   const update = useMutation(api.documents.update)
   const removeIcon = useMutation(api.documents.removeIcon)
+  const coverImage = useCoverImage()
 
   const enableInput = () => {
     if (preview) return
@@ -55,6 +57,8 @@ export default function Toolbar({ initialData, preview }) {
       id: initialData._id
     })
   }
+
+  const handleOpen = () => coverImage.onOpen()
 
   return (
     <div className='pl-[54px] group relative'>
@@ -98,7 +102,7 @@ export default function Toolbar({ initialData, preview }) {
         {
           !initialData.coverImage && !preview && (
             <Button
-              onClick={() => {}}
+              onClick={handleOpen}
               className='text-xs text-muted-foreground'
               variant='outline'
               size='sm'

@@ -1,6 +1,7 @@
 import { ConvexClientProvider } from '@/components/providers/convex-provider'
 import ModalProvider from '@/components/providers/modal-provider'
 import { ThemeProvider } from '@/components/providers/theme-provider'
+import { EdgeStoreProvider } from '@/lib/edgestore'
 import { Inter } from 'next/font/google'
 import { Toaster } from 'sonner'
 import './globals.css'
@@ -34,17 +35,19 @@ export default function RootLayout({ children }) {
     <html lang='en' suppressHydrationWarning>
       <body className={inter.className}>
         <ConvexClientProvider>
-          <ThemeProvider
-            attribute='class'
-            defaultTheme='system'
-            enableSystem
-            disableTransitionOnChange
-            storageKey='nocion-theme'
-          >
-            <Toaster position='bottom-center' />
-            <ModalProvider />
-            {children}
-          </ThemeProvider>
+          <EdgeStoreProvider>
+            <ThemeProvider
+              attribute='class'
+              defaultTheme='system'
+              enableSystem
+              disableTransitionOnChange
+              storageKey='nocion-theme'
+            >
+              <Toaster position='bottom-center' />
+              <ModalProvider />
+              {children}
+            </ThemeProvider>
+          </EdgeStoreProvider>
         </ConvexClientProvider>
 
       </body>
