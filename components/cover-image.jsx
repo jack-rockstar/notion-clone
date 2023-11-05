@@ -11,6 +11,7 @@ import Image from 'next/image'
 import { useParams } from 'next/navigation'
 import { toast } from 'sonner'
 import ConfirmModal from './modals/confirm-modal'
+import { Skeleton } from './ui/skeleton'
 
 export default function CoverImage({ url, preview }) {
   const removeImage = useMutation(api.documents.removeImage)
@@ -77,5 +78,11 @@ export default function CoverImage({ url, preview }) {
         </div>
       )}
     </div>
+  )
+}
+
+CoverImage.Skeleton = function CoverSkeleton() {
+  return (
+    <Skeleton className='w-full h-[12vh]' />
   )
 }

@@ -8,7 +8,7 @@ import { useSetting } from '@/hooks/use-setting'
 import { cn } from '@/lib/utils'
 import { useMutation } from 'convex/react'
 import { ChevronsLeft, MenuIcon, Plus, PlusCircle, Search, Settings, Trash } from 'lucide-react'
-import { useParams, usePathname } from 'next/navigation'
+import { useParams, usePathname, useRouter } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 import { toast } from 'sonner'
 import DocumentList from './document-list'
@@ -20,6 +20,7 @@ import UserItem from './user-item'
 export default function Navigation() {
   const pathname = usePathname()
   const params = useParams()
+  const router = useRouter()
   const search = useSearch()
   const setting = useSetting()
   const isMobile = useMediaQuery('(max-width: 768px)')
@@ -94,6 +95,7 @@ export default function Navigation() {
 
   const handleCreateDoc = () => {
     const promise = createDocument({ title: 'Untitled' })
+      .then((docId) => router.push(`/documents/${docId}`))
     toast.promise(promise, {
       loading: 'Creating new note...',
       success: 'New note created!',
