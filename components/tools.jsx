@@ -78,48 +78,4 @@ export const EDITOR_JS_TOOLS = {
     class: ChangeCase,
     showLocaleOption: true
   }
-  // image: {
-  //   class: Image,
-  //   config: {
-  //     uploader: {
-  //       async uploadByFile(file) {
-  //         try {
-  //           const response = await edgestore.publicFiles.upload({
-  //             file
-  //           })
-
-  //           return {
-  //             success: 1,
-  //             file: {
-  //               url: response.url
-  //             }
-  //           }
-  //         } catch (error) {
-  //           console.log(error)
-  //           return {
-  //             success: 0,
-  //             file: {
-  //               url: null
-  //             }
-  //           }
-  //         }
-  //       }
-  //     }
-  //   }
-  // }
-
 }
-
-// export const UploadImage = async ({ file }) => {
-//   const { edgestore } = useEdgeStore()
-//   const response = await edgestore.publicFiles.upload({
-//     file
-//   })
-
-//   return {
-//     success: 1,
-//     file: {
-//       url: response.url
-//     }
-//   }
-// }

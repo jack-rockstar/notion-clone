@@ -18,7 +18,6 @@ export default function Publish({ initialData }) {
   const url = `${origin}/preview/${initialData._id}`
 
   const handlePublish = (publish = true) => {
-    console.log({ publish })
     setIsSubmitting(true)
     const promise = update({
       id: initialData._id,
