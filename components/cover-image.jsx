@@ -39,7 +39,7 @@ export default function CoverImage({ url, preview }) {
   return (
     <div className={cn(
       'relative w-full h-[35vh] group',
-      !url && 'h-[12vh]',
+      !url && 'h-[20vh]',
       url && 'bg-muted'
     )}
     >
