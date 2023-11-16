@@ -9,7 +9,7 @@ import { useTheme } from 'next-themes'
 import { useEffect, useRef } from 'react'
 import { EDITOR_JS_TOOLS } from './tools'
 
-export default function Editor({ onChange, initialContent, editable = false }) {
+export default function Editor({ onChange, initialContent, readOnly = false }) {
   const ref = useRef()
   const { resolvedTheme } = useTheme()
   const { edgestore } = useEdgeStore()
@@ -61,9 +61,9 @@ export default function Editor({ onChange, initialContent, editable = false }) {
         onChange: save,
         logLevel: 'ERROR',
         placeholder: 'Pulsa «Tab» para mostrar los comandos…',
-        readOnly: editable,
+        readOnly,
         data: initialContent ? JSON.parse(initialContent) : undefined,
-        autofocus: !editable
+        autofocus: !readOnly
       })
       ref.current = editor
     }

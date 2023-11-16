@@ -52,7 +52,7 @@ export default function PreviewPage({ params }) {
         <Editor
           onChange={onChange}
           initialContent={document.content}
-          editable={false}
+          readOnly
         />
       </div>
     </div>
