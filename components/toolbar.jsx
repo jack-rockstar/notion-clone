@@ -126,34 +126,7 @@ export default function Toolbar({ initialData, preview }) {
           </p>
         )
       }
-      {/* <div className='flex items-center py-4 opacity-0 group-hover:opacity-100 gap-x-1'>
-        {!icon && !preview && (
-          <IconPicker asChild onChange={onIconSelect}>
-            <Button
-              className='text-xs text-muted-foreground'
-              variant='outline'
-              size='sm'
-            >
-              <Smile className='w-4 h-4 mr-2' />
-              Add Icon
-            </Button>
-          </IconPicker>
-        )}
-        {
-          !coverImage && !preview && (
-            <Button
-              onClick={handleOpen}
-              className='text-xs text-muted-foreground'
-              variant='outline'
-              size='sm'
-            >
-              <ImageIcon className='w-4 h-4 mr-2' />
-              Add cover
-            </Button>
-          )
-        }
-      </div> */}
-      {!isEditing && !preview
+      {isEditing && !preview
         ? (
           <section className='flex items-center w-full'>
             <TextareaAutosize
