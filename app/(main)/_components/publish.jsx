@@ -1,6 +1,8 @@
 'use client'
 
+import Spinner from '@/components/spinner'
 import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { api } from '@/convex/_generated/api'
 import useOrigin from '@/hooks/use-origin'
@@ -11,33 +13,52 @@ import { toast } from 'sonner'
 
 export default function Publish({ initialData }) {
   const origin = useOrigin()
-  const update = useMutation(api.documents.update)
+  const update = useMutation(api.documents.publish)
+  const stopPosting = useMutation(api.documents.update)
+  const [url, setUrl] = useState(initialData?.urlMask || initialData?._id)
   const [copied, setCopied] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
 
-  const url = `${origin}/preview/${initialData._id}`
+  const pathPreview = url || initialData._id
 
-  const handlePublish = (publish = true) => {
+  const handlePublish = () => {
     setIsSubmitting(true)
-    const promise = update({
+    update({
       id: initialData._id,
-      isPublished: publish
+      isPublished: true,
+      urlMask: pathPreview
+    }).then((e) => {
+      if (!e.status) {
+        toast.error(`${e.code === 409 ? 'A publication already exists with that domain.' : 'Error publishing the page.'}`)
+        return
+      }
+      toast.success('Page published successfully')
     }).finally(() => setIsSubmitting(false))
-
-    toast.promise(promise, {
-      loading: `${publish ? 'Publishing...' : 'Unpublishing...'}`,
-      success: `${publish ? 'Note published' : 'Note unpublished'}`,
-      error: `${publish ? 'Failed to publish note.' : 'Failed to unpublish note.'}`
-    })
   }
 
   const onCopy = () => {
-    navigator.clipboard.writeText(url)
+    navigator.clipboard.writeText(`${origin}/preview/${url || initialData._id}`)
     setCopied(true)
 
     setTimeout(() => {
       setCopied(false)
     }, 1000)
+  }
+
+  const onPublish = () => {
+    setIsSubmitting(true)
+    setUrl('')
+    const promise = stopPosting({
+      id: initialData._id,
+      isPublished: false,
+      urlMask: ''
+    }).finally(() => setIsSubmitting(false))
+
+    toast.promise(promise, {
+      loading: 'Unpublishing...',
+      success: 'Note unpublished',
+      error: 'Failed to unpublish note.'
+    })
   }
 
   return (
@@ -66,7 +87,7 @@ export default function Publish({ initialData }) {
                 </div>
                 <div className='flex items-center'>
                   <input
-                    value={url}
+                    value={`${origin}/preview/${pathPreview}`}
                     className='flex-1 h-8 px-2 text-xs truncate border rounded-l-md bg-muted'
                     disabled
                   />
@@ -86,9 +107,11 @@ export default function Publish({ initialData }) {
                   size='sm'
                   className='w-full text-xs'
                   disabled={isSubmitting}
-                  onClick={() => handlePublish(false)}
+                  onClick={() => onPublish(false)}
                 >
-                  Unpublish
+                  {
+                    isSubmitting ? <Spinner size='lg' /> : 'Unpublish'
+                  }
                 </Button>
               </div>
               )
@@ -97,13 +120,16 @@ export default function Publish({ initialData }) {
                 <Globe className='w-8 h-8 mb-2 text-muted-foreground' />
                 <p className='mb-2 text-sm font-medium'>Publish this note</p>
                 <span className='mb-4 text-xs text-muted-foreground '>Share your work with others</span>
+                <Input onChange={(e) => setUrl(e.target.value)} className='mb-4 bg-transparent h-9 focus-visible:ring-0 focus-visible:border-blue-700 focus-visible:ring-offset-0' placeholder='/miportafolio' />
                 <Button
                   disabled={isSubmitting}
-                  onClick={() => handlePublish()}
+                  onClick={handlePublish}
                   className='w-full text-xs'
                   size='sm'
                 >
-                  Publish
+                  {
+                    isSubmitting ? <Spinner size='lg' /> : 'Publish'
+                  }
                 </Button>
               </div>
               )

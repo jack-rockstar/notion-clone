@@ -11,8 +11,8 @@ import { useMemo } from 'react'
 export default function PreviewPage({ params }) {
   const Editor = useMemo(() => dynamic(() => import('@/components/editor'), { ssr: false }), [])
 
-  const document = useQuery(api.documents.getById, {
-    documentId: params.documentId
+  const document = useQuery(api.documents.getByUrlMask, {
+    urlMask: params.documentId
   })
 
   const update = useMutation(api.documents.update)

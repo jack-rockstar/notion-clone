@@ -3,7 +3,7 @@ import { cva } from 'class-variance-authority'
 import { Loader } from 'lucide-react'
 
 const spinnerVariants = cva(
-  'text-muted-foreground animate-spin',
+  'text-muted-foreground  animate-spin',
   {
     variants: {
       size: {

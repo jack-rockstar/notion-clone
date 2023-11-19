@@ -178,7 +178,8 @@ export const create = mutation({
       parentDocument: args.parentDocument,
       userId,
       isArchived: false,
-      isPublished: false
+      isPublished: false,
+      urlMask: ''
     })
     return document
   }
@@ -230,7 +231,8 @@ export const update = mutation({
     content: v.optional(v.string()),
     coverImage: v.optional(v.string()),
     icon: v.optional(v.string()),
-    isPublished: v.optional(v.boolean())
+    isPublished: v.optional(v.boolean()),
+    urlMask: v.optional(v.string())
   },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity()
@@ -294,5 +296,85 @@ export const removeImage = mutation({
     })
 
     return document
+  }
+})
+
+export const getByUrlMask = query({
+  args: { urlMask: v.string() },
+  handler: async (ctx, args) => {
+    const document = await ctx.db
+      .query('documents')
+      .filter((q) =>
+        q.eq(q.field('urlMask'), args.urlMask)
+      ).unique()
+
+    if (!document) return null
+
+    if (document.isPublished && !document.isArchived) return document
+
+    return document
+  }
+})
+
+export const publish = mutation({
+  args: {
+    id: v.id('documents'),
+    isPublished: v.optional(v.boolean()),
+    urlMask: v.optional(v.string())
+  },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity()
+
+    if (!identity) {
+      return {
+        code: 401,
+        status: false,
+        message: 'UnAuthorized'
+      }
+    }
+
+    const userId = identity.subject
+
+    const { id, ...rest } = args
+
+    const existingDocument = await ctx.db.get(id)
+    if (!existingDocument) {
+      return {
+        code: 404,
+        status: false,
+        message: 'Not found'
+      }
+    }
+
+    if (existingDocument.userId !== userId) {
+      return {
+        code: 401,
+        status: false,
+        message: 'UnAuthorized'
+      }
+    }
+
+    const existsMask = await ctx.db
+      .query('documents')
+      .filter((q) =>
+        q.eq(q.field('urlMask'), rest.urlMask)
+      ).unique()
+
+    if (existsMask) {
+      return {
+        code: 409,
+        status: false,
+        message: 'Mask existing'
+      }
+    }
+    await ctx.db.patch(id, {
+      ...rest
+    })
+
+    return {
+      code: 200,
+      status: true,
+      message: 'correct operation'
+    }
   }
 })
