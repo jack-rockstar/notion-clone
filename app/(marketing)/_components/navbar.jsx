@@ -14,7 +14,7 @@ export default function Navbar() {
   const { isAuthenticated, isLoading } = useConvexAuth()
   return (
     <nav className={cn(
-      'z-50 bg-background fixed dark:bg-[#1f1f1f] top-0 flex items-center w-full py-6 px-8',
+      'z-50 bg-background fixed dark:bg-[#191919] top-0 flex items-center w-full py-6 px-8',
       scrolled && 'border-b shadow-sm '
     )}
     >

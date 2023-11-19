@@ -73,7 +73,7 @@ body,
     --input: 0 0% 14.9%;
     --ring: 0 0% 83.1%;
 
-    --bgEditor: #1f1f1f;
+    --bgEditor: #191919;
     --textColor: #CFCFCF;
   }
 }
@@ -130,7 +130,7 @@ body,
 .cdx-input::selection,
 .ce-block__content::selection,
 font::selection {
-  background-color: rgb(0, 60, 255);
+  background-color: rgba(35, 131, 226, .28);
   color: #FFF !important;
 }
 

@@ -68,7 +68,7 @@ export default function Title({ initialData }) {
             </span>
           </Button>
         </PopoverTrigger>
-        <PopoverContent className='flex p-2 bg-white dark:bg-[#1F1F1F] border rounded-lg shadow-lg gap-x-2'>
+        <PopoverContent className='flex p-2 bg-white dark:bg-[#191919] border rounded-lg shadow-lg gap-x-2'>
           <TitleEditing icon={icon} inputRef={inputRef} onChange={onChange} onIconSelect={onIconSelect} onKeyDown={onKeyDown} title={title} />
         </PopoverContent>
 
