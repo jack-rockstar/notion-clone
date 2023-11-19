@@ -209,7 +209,7 @@ export const getById = query({
     const identity = await ctx.auth.getUserIdentity()
     const document = await ctx.db.get(args.documentId)
 
-    if (!document) throw new Error('Not found')
+    if (!document) return null
 
     if (document.isPublished && !document.isArchived) return document
 
