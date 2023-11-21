@@ -35,7 +35,7 @@ export default function Menu({ documentId }) {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent
-        className='w-60'
+        className='w-60 bg-white dark:bg-[#1f1f1f]'
         align='end'
         alignOffset={8}
         forceMount

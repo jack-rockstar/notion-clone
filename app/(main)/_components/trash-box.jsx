@@ -62,7 +62,7 @@ export default function Trashbox() {
   }
 
   return (
-    <div className='text-sm'>
+    <div className='text-sm bg-white dark:bg-[#1f1f1f]'>
       <section className='flex items-center p-2 gap-x-1'>
         <Search className='w-4 h-4' />
         <Input

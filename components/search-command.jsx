@@ -49,7 +49,7 @@ export default function SearchCommand() {
       <CommandInput placeholder={`Search ${user?.fullName}'s Nocion...`} />
       <CommandList>
         <CommandEmpty>No results found.</CommandEmpty>
-        <CommandGroup heading='Documents'>
+        <CommandGroup heading='Documents' className='bg-white dark:bg-[#1f1f1f]'>
           {
             documents?.map((d) => (
               <CommandItem
