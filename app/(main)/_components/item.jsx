@@ -4,7 +4,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSepara
 import { Skeleton } from '@/components/ui/skeleton'
 import { api } from '@/convex/_generated/api'
 import { cn } from '@/lib/utils'
-import { useUser } from '@clerk/clerk-react'
+import { useUser } from '@clerk/nextjs'
 import { useMutation } from 'convex/react'
 import { ChevronDown, ChevronRight, MoreHorizontal, Plus, Trash } from 'lucide-react'
 import { useRouter } from 'next/navigation'

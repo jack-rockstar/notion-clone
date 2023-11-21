@@ -6,7 +6,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { api } from '@/convex/_generated/api'
 import { useMutation, useQuery } from 'convex/react'
 import dynamic from 'next/dynamic'
-import { useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 
 export default function PreviewPage({ params }) {
   const Editor = useMemo(() => dynamic(() => import('@/components/editor'), { ssr: false }), [])
@@ -23,6 +23,12 @@ export default function PreviewPage({ params }) {
       content
     })
   }
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      window.document.title = document?.title
+    }
+  }, [document?.title])
 
   if (document === undefined) {
     return (

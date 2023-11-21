@@ -2,8 +2,9 @@
 
 import { Avatar, AvatarImage } from '@/components/ui/avatar'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
-import { SignOutButton, useUser } from '@clerk/clerk-react'
+import { SignOutButton, useUser } from '@clerk/nextjs'
 import { ChevronsLeftRight } from 'lucide-react'
+import Link from 'next/link'
 
 export default function UserItem() {
   const { user } = useUser()
@@ -47,7 +48,9 @@ export default function UserItem() {
         <DropdownMenuSeparator />
         <DropdownMenuItem className='w-full cursor-pointer text-muted-foreground' asChild>
           <SignOutButton>
-            Log out
+            <Link href='/'>
+              Log out
+            </Link>
           </SignOutButton>
         </DropdownMenuItem>
       </DropdownMenuContent>

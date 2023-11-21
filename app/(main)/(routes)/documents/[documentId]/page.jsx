@@ -1,12 +1,11 @@
 'use client'
-
 import CoverImage from '@/components/cover-image'
 import Toolbar from '@/components/toolbar'
 import { Skeleton } from '@/components/ui/skeleton'
 import { api } from '@/convex/_generated/api'
 import { useMutation, useQuery } from 'convex/react'
 import dynamic from 'next/dynamic'
-import { useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 
 export default function DocumentIdPage({ params }) {
   const Editor = useMemo(() => dynamic(() => import('@/components/editor'), { ssr: false }), [])
@@ -23,6 +22,12 @@ export default function DocumentIdPage({ params }) {
       content
     })
   }
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      window.document.title = document?.title
+    }
+  }, [document?.title])
 
   if (document === undefined) {
     return (
