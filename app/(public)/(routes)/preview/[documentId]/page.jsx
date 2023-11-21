@@ -26,7 +26,7 @@ export default function PreviewPage({ params }) {
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      window.document.title = document?.title
+      window.document.title = document?.title ?? 'Nocion'
     }
   }, [document?.title])
 
