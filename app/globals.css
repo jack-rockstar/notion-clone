@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=PT+Serif:wght@400;700&family=Roboto+Mono:wght@400;600;700&display=swap');
+
 html,
 body,
 :root {
@@ -124,13 +126,22 @@ body,
 
 .ce-header::selection,
 .ce-paragraph::selection,
+.ce-paragraph>b::selection,
+.ce-paragraph>i::selection,
 .ce-block__content::selection,
 .codex-editor__fake-cursor::selection,
 .ce-block--selected::selection,
 .cdx-input::selection,
 .ce-block__content::selection,
+.cdx-list__item::selection,
+.cdx-underline::selection,
+.cdx-strikethrough::selection,
+.cdx-checklist__item-text::selection,
+.cdx-checklist__item-text::selection,
+.cdx-checklist__item-text>b::selection,
+.cdx-checklist__item-text>b>i::selection,
 font::selection {
-  background-color: rgba(35, 131, 226, .28);
+  background-color: rgba(35, 131, 226, .28) !important;
   color: #FFF !important;
 }
 

@@ -9,7 +9,7 @@ import { useTheme } from 'next-themes'
 import { useEffect, useRef } from 'react'
 import { EDITOR_JS_TOOLS } from './tools'
 
-export default function Editor({ onChange, initialContent, readOnly = false }) {
+export default function Editor({ onChange, initialContent, fontFamily, readOnly = false }) {
   const ref = useRef()
   const { resolvedTheme } = useTheme()
   const { edgestore } = useEdgeStore()
@@ -84,7 +84,7 @@ export default function Editor({ onChange, initialContent, readOnly = false }) {
 
   return (
     <article className={`editor-${resolvedTheme} mx-4 lg:mx-0`}>
-      <div id='editorjs' className='px-4 lg:px-2' />
+      <div id='editorjs' className={`px-4 lg:px-2 ${fontFamily}`} />
     </article>
   )
 }

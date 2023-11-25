@@ -142,7 +142,10 @@ export default function Toolbar({ initialData, preview }) {
         : (
           <div
             onClick={enableInput}
-            className='pb-[11.5px]  text-5xl font-bold mt-4 break-words outline-none text-[#3F3F3F] dark:text-[#CFCFCF] text-center'
+            className={cn(
+              'pb-[11.5px] text-5xl font-bold mt-4 break-words outline-none text-[#3F3F3F] dark:text-[#CFCFCF] text-center',
+              initialData.fontFamily
+            )}
           >
             {title}
           </div>

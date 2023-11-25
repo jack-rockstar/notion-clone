@@ -41,7 +41,7 @@ export default function Navbar({ isCollapsed, onResetWidth }) {
           <Title initialData={document} />
           <section className='flex items-center gap-x-2'>
             <Publish initialData={document} />
-            <Menu documentId={document._id} />
+            <Menu documentId={document._id} fontFamily={document.fontFamily} />
           </section>
         </div>
       </nav>

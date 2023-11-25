@@ -179,7 +179,8 @@ export const create = mutation({
       userId,
       isArchived: false,
       isPublished: false,
-      urlMask: ''
+      urlMask: '',
+      fontFamily: ''
     })
     return document
   }
@@ -232,7 +233,8 @@ export const update = mutation({
     coverImage: v.optional(v.string()),
     icon: v.optional(v.string()),
     isPublished: v.optional(v.boolean()),
-    urlMask: v.optional(v.string())
+    urlMask: v.optional(v.string()),
+    fontFamily: v.optional(v.string())
   },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity()

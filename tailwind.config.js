@@ -16,6 +16,10 @@ module.exports = {
       }
     },
     extend: {
+      fontFamily: {
+        'ui-serif': 'PT Serif',
+        'mono-roboto': 'Roboto Mono'
+      },
       colors: {
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',

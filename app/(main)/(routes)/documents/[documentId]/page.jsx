@@ -57,6 +57,7 @@ export default function DocumentIdPage({ params }) {
         <Editor
           onChange={onChange}
           initialContent={document.content}
+          fontFamily={document.fontFamily}
         />
       </div>
     </div>
