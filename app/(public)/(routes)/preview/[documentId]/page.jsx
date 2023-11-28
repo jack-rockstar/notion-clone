@@ -4,6 +4,7 @@ import CoverImage from '@/components/cover-image'
 import Toolbar from '@/components/toolbar'
 import { Skeleton } from '@/components/ui/skeleton'
 import { api } from '@/convex/_generated/api'
+import { cn } from '@/lib/utils'
 import { useMutation, useQuery } from 'convex/react'
 import dynamic from 'next/dynamic'
 import { useEffect, useMemo } from 'react'
@@ -52,12 +53,19 @@ export default function PreviewPage({ params }) {
 
   return (
     <div className='pb-40'>
-      <CoverImage preview url={document.coverImage} />
-      <div className='mx-auto md:max-w-3xl lg:max-w-4xl'>
-        <Toolbar preview initialData={document} />
+      <CoverImage url={document.coverImage} />
+      <div className={cn(
+        'max-w-3xl mx-auto',
+        document.maxWidth && 'max-w-4xl',
+        document.fontFamily
+      )}
+      >
+        <Toolbar initialData={document} />
         <Editor
           onChange={onChange}
           initialContent={document.content}
+          fontFamily={document.fontFamily}
+          maxWidth={document.maxWidth}
           readOnly
         />
       </div>

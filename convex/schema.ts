@@ -12,7 +12,8 @@ export default defineSchema({
     icon: v.optional(v.string()),
     isPublished: v.boolean(),
     urlMask: v.optional(v.string()),
-    fontFamily: v.optional(v.string())
+    fontFamily: v.optional(v.string()),
+    maxWidth: v.optional(v.boolean())
   })
     .index('by_user', ['userId'])
     .index('by_user_parent', ['userId', 'parentDocument'])

@@ -10,7 +10,6 @@ import { useUser } from '@clerk/nextjs'
 import { useMutation } from 'convex/react'
 import { ArrowDownToLine, FileUp, MoreHorizontal, Trash } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import { useState } from 'react'
 import { toast } from 'sonner'
 
 const fonts = [
@@ -28,12 +27,14 @@ const fonts = [
   }
 ]
 
-export default function Menu({ documentId, fontFamily }) {
+export default function Menu({ document }) {
   const router = useRouter()
   const { user } = useUser()
   const archive = useMutation(api.documents.archive)
   const update = useMutation(api.documents.update)
-  const [open, setOpen] = useState(false)
+
+  const { _id: documentId, fontFamily, maxWidth } = document
+
   const onArchive = () => {
     const promise = archive({ id: documentId })
 
@@ -49,7 +50,7 @@ export default function Menu({ documentId, fontFamily }) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button size='sm' variant='ghost' className='focus-visible:ring-0 focus-visible:ring-offset-0' onClick={setOpen}>
+        <Button size='sm' variant='ghost' className='focus-visible:ring-0 focus-visible:ring-offset-0'>
           <MoreHorizontal className='w-4 h-4' />
         </Button>
       </DropdownMenuTrigger>
@@ -59,9 +60,9 @@ export default function Menu({ documentId, fontFamily }) {
         alignOffset={8}
         forceMount
       >
-        <DropdownMenuItem className='focus:bg-[#1f1f1f] cursor-pointer'>
+        <DropdownMenuItem className='focus:bg-white dark:focus:bg-[#1f1f1f]  cursor-pointer'>
           <div className='w-full mx-2'>
-            <small className='text-xs font-normal text-[#ffffff71] opacity-95 block mb-1'>Estilos</small>
+            <small className='text-xs font-normal text-black/90 dark:text-[#ffffff71] opacity-95 block mb-1'>Estilos</small>
             <article className='flex items-center justify-between w-full'>
               {
                 fonts.map(({ fontName, title }) => (
@@ -73,12 +74,12 @@ export default function Menu({ documentId, fontFamily }) {
                     onClick={() => update({ fontFamily: fontName, id: documentId })} role='button'
                   >
                     <div className={cn(
-                      `text-2xl font-medium ${fontName}`,
+                      `text-2xl  font-medium ${fontName}`,
                       (fontFamily === fontName) && 'text-blue-500'
                     )}
                     >Ag
                     </div>
-                    <small className='text-xs font-normal text-[#ffffff71] opacity-95'>{title}</small>
+                    <small className='text-xs font-normal text-black/90 dark:text-[#ffffff71] opacity-95'>{title}</small>
                   </section>
                 ))
               }
@@ -88,12 +89,12 @@ export default function Menu({ documentId, fontFamily }) {
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem className='flex justify-between cursor-pointer'>
-            <label htmlFor='chkText' className='block mb-1 text-xs font-medium cursor-pointer text-white/75'>Texto pequeño</label>
+            <label htmlFor='chkText' className='block mb-1 text-xs font-medium cursor-pointer text-black/90 dark:text-white/75'>Texto pequeño</label>
             <Switch id='chkText' className='data-[state=unchecked]:bg-gray-500 data-[state=checked]:bg-blue-600 text-white h-4 w-8' classNameLog='h-4 w-4  data-[state=checked]:translate-x-4' />
           </DropdownMenuItem>
           <DropdownMenuItem className='flex justify-between'>
-            <label htmlFor='chkAncho' className='block mb-1 text-xs font-medium cursor-pointer text-white/75'>Ancho completo</label>
-            <Switch id='chkAncho' className='data-[state=unchecked]:bg-gray-500 data-[state=checked]:bg-blue-600 text-white  h-4 w-8' classNameLog='h-4 w-4  data-[state=checked]:translate-x-4' />
+            <label htmlFor='chkAncho' className='block mb-1 text-xs font-medium cursor-pointer text-black/90 dark:text-white/75'>Ancho completo</label>
+            <Switch id='chkAncho' checked={!!maxWidth} onCheckedChange={(e) => update({ maxWidth: e, id: documentId })} className='data-[state=unchecked]:bg-gray-500 data-[state=checked]:bg-blue-600 text-white  h-4 w-8' classNameLog='h-4 w-4  data-[state=checked]:translate-x-4' />
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
@@ -106,7 +107,7 @@ export default function Menu({ documentId, fontFamily }) {
             <FileUp className='w-4 h-4 mr-2' />
             <div className='flex flex-col'>
               <small className='text-xs'>Export</small>
-              <span className='text-[#ffffff71] text-xs opacity-95  mb-1'>PDF, HTML, Markdown</span>
+              <span className='text-black/90 dark:text-[#ffffff71] text-xs opacity-95  mb-1'>PDF, HTML, Markdown</span>
             </div>
           </DropdownMenuItem>
         </DropdownMenuGroup>

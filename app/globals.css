@@ -44,6 +44,7 @@ body,
 
     --bgEditor: #fff;
     --textColor: #000;
+    --bgSelection: rgb(35 101 167);
   }
 
   .dark {
@@ -77,6 +78,7 @@ body,
 
     --bgEditor: #191919;
     --textColor: #CFCFCF;
+    --bgSelection: rgba(35, 131, 226, .28);
   }
 }
 
@@ -140,17 +142,14 @@ body,
 .cdx-checklist__item-text::selection,
 .cdx-checklist__item-text>b::selection,
 .cdx-checklist__item-text>b>i::selection,
+.ce-block__content>div::selection,
 font::selection {
-  background-color: rgba(35, 131, 226, .28) !important;
+  background-color: var(--bgSelection) !important;
   color: #FFF !important;
 }
 
 .ce-block--selected .ce-block__content {
   background-color: transparent;
-}
-
-.ct.ct--top {
-  left: 0 !important;
 }
 
 .tc-popover--opened {
@@ -164,4 +163,9 @@ font::selection {
 .ce-popover--opened {
   color: #000;
   z-index: 99999;
+}
+
+.ce-block__content,
+.ce-toolbar__content {
+  max-width: unset;
 }

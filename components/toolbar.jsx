@@ -65,7 +65,7 @@ export default function Toolbar({ initialData, preview }) {
 
   return (
     <div className={cn(
-      'pl-[54px] group relative ',
+      'group relative ',
       !coverImage && 'items-center mt-8'
     )}
     >
