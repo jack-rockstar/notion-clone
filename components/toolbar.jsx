@@ -21,16 +21,6 @@ export default function Toolbar({ initialData, preview }) {
 
   const { icon, coverImage, title } = initialData
 
-  const enableInput = () => {
-    if (preview) return
-
-    setIsEditing(true)
-    setTimeout(() => {
-      setValue(initialData.title)
-      inputRef.current?.focus()
-    }, 0)
-  }
-
   const disabledInput = () => setIsEditing(false)
 
   const onInput = (value) => {
@@ -61,7 +51,10 @@ export default function Toolbar({ initialData, preview }) {
     })
   }
 
-  const handleOpen = () => coverImageModal.onOpen()
+  const handleOpen = () => {
+    coverImageModal.setDocId(initialData._id)
+    coverImageModal.onOpen()
+  }
 
   return (
     <div className={cn(
@@ -126,7 +119,7 @@ export default function Toolbar({ initialData, preview }) {
           </p>
         )
       }
-      {isEditing && !preview
+      {!preview
         ? (
           <section className='flex items-center w-full'>
             <TextareaAutosize
@@ -141,7 +134,6 @@ export default function Toolbar({ initialData, preview }) {
           )
         : (
           <div
-            onClick={enableInput}
             className={cn(
               'pb-[11.5px] text-5xl font-bold mt-4 break-words outline-none text-[#3F3F3F] dark:text-[#CFCFCF] text-center',
               initialData.fontFamily

@@ -169,3 +169,15 @@ font::selection {
 .ce-toolbar__content {
   max-width: unset;
 }
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+  background-color: #3c3d3f;
+  /* background-color: transparent; */
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #3c4655;
+  border-radius: 50px;
+}

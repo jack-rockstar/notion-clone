@@ -1,18 +1,19 @@
 'use client'
 
+import { Button } from '@/components/ui/button'
 import { api } from '@/convex/_generated/api'
 import { useQuery } from 'convex/react'
-import { MenuIcon } from 'lucide-react'
+import { Clock, MenuIcon, MessageSquare, Star } from 'lucide-react'
 import { useParams } from 'next/navigation'
 import Banner from './banner'
 import Menu from './menu'
 import Publish from './publish'
 import Title from './title'
 
-export default function Navbar({ isCollapsed, onResetWidth }) {
+export default function Navbar({ isCollapsed, onResetWidth, id = null }) {
   const params = useParams()
   const document = useQuery(api.documents.getById, {
-    documentId: params.documentId
+    documentId: id ?? params.documentId
   })
 
   if (document === undefined) {
@@ -39,14 +40,18 @@ export default function Navbar({ isCollapsed, onResetWidth }) {
         )}
         <div className='flex items-center justify-between w-full'>
           <Title initialData={document} />
-          <section className='flex items-center gap-x-2'>
+          <section className='flex items-center'>
             <Publish initialData={document} />
+            <Button size='icon' variant='ghost' className='focus-visible:ring-0 focus-visible:ring-offset-0 h-7 w-8'><MessageSquare className='h-4 w-4' /></Button>
+            <Button size='icon' variant='ghost' className='focus-visible:ring-0 focus-visible:ring-offset-0 h-7 w-8'><Clock className='h-4 w-4' /></Button>
+            <Button size='icon' variant='ghost' className='focus-visible:ring-0 focus-visible:ring-offset-0 h-7 w-8'><Star className='h-4 w-4' /></Button>
+
             <Menu document={document} />
           </section>
         </div>
       </nav>
       {
-        document.isArchived && (
+        document?.isArchived && (
           <Banner documentId={document._id} />
         )
       }

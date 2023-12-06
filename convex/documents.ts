@@ -207,10 +207,12 @@ export const getSearch = query({
 })
 
 export const getById = query({
-  args: { documentId: v.id('documents') },
+  args: { documentId: v.any() },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity()
-    const document = await ctx.db.get(args.documentId)
+
+    if (args.documentId === null) return null
+    const document = await ctx.db.get(args.documentId as Id<'documents'>)
 
     if (!document) return null
 

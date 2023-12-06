@@ -13,6 +13,7 @@ export default function Editor({ onChange, initialContent, fontFamily, readOnly 
   const ref = useRef()
   const { resolvedTheme } = useTheme()
   const { edgestore } = useEdgeStore()
+  const editorId = `editorjs-${window.crypto.randomUUID()}`
   const TOOLS = {
     ...EDITOR_JS_TOOLS,
     image: {
@@ -56,7 +57,7 @@ export default function Editor({ onChange, initialContent, fontFamily, readOnly 
           const undo = new Undo({ editor })
           undo.initialize(initialData)
         },
-        holder: 'editorjs',
+        holder: editorId,
         tools: TOOLS,
         onChange: save,
         logLevel: 'ERROR',
@@ -84,7 +85,7 @@ export default function Editor({ onChange, initialContent, fontFamily, readOnly 
 
   return (
     <article className={`editor-${resolvedTheme} mx-4 lg:mx-0`}>
-      <div id='editorjs' className={`px-4 lg:px-2 ${fontFamily}`} />
+      <div id={editorId} className={`px-4 lg:px-2 ${fontFamily}`} />
     </article>
   )
 }

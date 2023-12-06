@@ -51,7 +51,7 @@ export default function DocumentIdPage({ params }) {
   }
 
   return (
-    <div className='pb-40'>
+    <div className='pb-40 '>
       <CoverImage url={document.coverImage} />
       <div className={cn(
         'max-w-3xl mx-auto',

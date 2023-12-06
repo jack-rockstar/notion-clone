@@ -36,7 +36,7 @@ export default function CoverImageModal() {
       })
 
       await update({
-        id: params.documentId,
+        id: coverImage.getDocId() ?? params.documentId,
         coverImage: res.url
       })
 

@@ -24,7 +24,7 @@ export default function MainLayout({ children }) {
   return (
     <div className='h-full flex dark:bg-[#191919]'>
       <Navigation />
-      <main className='flex-1 h-full overflow-y-auto'>
+      <main className='flex-1 h-full overflow-y-auto custom-scrollbar'>
         <SearchCommand />
         {children}
       </main>

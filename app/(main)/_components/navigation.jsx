@@ -2,13 +2,14 @@
 
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { api } from '@/convex/_generated/api'
+import { useEditor } from '@/hooks/use-editor'
 import { useMediaQuery } from '@/hooks/use-media-query'
 import { useSearch } from '@/hooks/use-search'
 import { useSetting } from '@/hooks/use-setting'
 import { cn } from '@/lib/utils'
 import { useMutation } from 'convex/react'
 import { ChevronsLeft, MenuIcon, Plus, PlusCircle, Search, Settings, Trash } from 'lucide-react'
-import { useParams, usePathname, useRouter } from 'next/navigation'
+import { useParams, usePathname } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 import { toast } from 'sonner'
 import DocumentList from './document-list'
@@ -20,7 +21,7 @@ import UserItem from './user-item'
 export default function Navigation() {
   const pathname = usePathname()
   const params = useParams()
-  const router = useRouter()
+  const editor = useEditor()
   const search = useSearch()
   const setting = useSetting()
   const isMobile = useMediaQuery('(max-width: 768px)')
@@ -95,7 +96,12 @@ export default function Navigation() {
 
   const handleCreateDoc = () => {
     const promise = createDocument({ title: 'Untitled' })
-      .then((docId) => router.push(`/documents/${docId}`))
+      .then((id) => {
+        editor.setDoc(id)
+        editor.onOpen()
+        // router.replace(`/documents/${id}`)
+      })
+
     toast.promise(promise, {
       loading: 'Creating new note...',
       success: 'New note created!',
@@ -137,11 +143,11 @@ export default function Navigation() {
             label='Add a page'
           />
           <Popover>
-            <PopoverTrigger className='w-full mt-4 '>
+            <PopoverTrigger className='w-full mt-4'>
               <Item label='Trash' icon={Trash} />
             </PopoverTrigger>
             <PopoverContent
-              className='p-0 w-72'
+              className='p-0 overflow-y-auto max-h-96 w-72 custom-scrollbar'
               side={isMobile ? 'bottom' : 'right'}
             >
               <Trashbox />

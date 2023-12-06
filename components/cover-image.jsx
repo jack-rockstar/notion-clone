@@ -13,16 +13,18 @@ import { toast } from 'sonner'
 import ConfirmModal from './modals/confirm-modal'
 import { Skeleton } from './ui/skeleton'
 
-export default function CoverImage({ url, preview }) {
+export default function CoverImage({ url, inModal = false, preview }) {
+  console.log({ url, preview })
   const removeImage = useMutation(api.documents.removeImage)
   const { edgestore } = useEdgeStore()
   const params = useParams()
   const coverImage = useCoverImage()
-  const handleOpen = () => coverImage.onReplace(url)
+
+  const onOpen = () => coverImage.onReplace(url)
 
   const onRemove = () => {
     if (!url) return
-    const promise = removeImage({ id: params.documentId })
+    const promise = removeImage({ id: coverImage.getDocId() ?? params.documentId })
       .then(() => {
         edgestore.publicFiles.delete({
           url
@@ -40,11 +42,12 @@ export default function CoverImage({ url, preview }) {
     <div className={cn(
       'relative w-full h-[35vh] group',
       !url && 'h-[20vh]',
-      url && 'bg-muted'
+      url && 'bg-muted',
+      inModal && !url && 'h-[]0vh]'
     )}
     >
       {
-        !!url && (
+        url && (
           <Image
             src={url}
             fill
@@ -56,7 +59,7 @@ export default function CoverImage({ url, preview }) {
       {url && !preview && (
         <div className='absolute flex items-center opacity-0 group-hover:opacity-100 bottom-5 right-5 gap-x-2'>
           <Button
-            onClick={handleOpen}
+            onClick={onOpen}
             className='text-xs text-muted-foreground'
             variant='outline'
             size='sm'

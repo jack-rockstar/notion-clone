@@ -3,11 +3,11 @@
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { Skeleton } from '@/components/ui/skeleton'
 import { api } from '@/convex/_generated/api'
+import { useEditor } from '@/hooks/use-editor'
 import { cn } from '@/lib/utils'
 import { useUser } from '@clerk/nextjs'
 import { useMutation } from 'convex/react'
 import { ChevronDown, ChevronRight, MoreHorizontal, Plus, Trash } from 'lucide-react'
-import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 
 export default function Item({ label, onClick, icon: Icon, active, id, documentIcon, isSearch, level = 0, onExpanded, expanded }) {
@@ -15,7 +15,7 @@ export default function Item({ label, onClick, icon: Icon, active, id, documentI
   const ChevronIcon = expanded ? ChevronDown : ChevronRight
   const create = useMutation(api.documents.create)
   const archive = useMutation(api.documents.archive)
-  const router = useRouter()
+  const editor = useEditor()
   const handleExpand = (e) => {
     e.stopPropagation()
     onExpanded?.()
@@ -26,11 +26,15 @@ export default function Item({ label, onClick, icon: Icon, active, id, documentI
     if (!id) return
 
     const promise = create({ title: 'Untitled', parentDocument: id })
-      .then((docId) => {
+      .then((id) => {
         if (!expanded) {
           onExpanded?.()
         }
-        router.push(`/documents/${docId}`)
+
+        editor.setDoc(id)
+        editor.onOpen()
+        // router.replace(`/documents/${id}`)
+        // router.push(`/documents/${docId}`)
       })
 
     toast.promise(promise, {
@@ -53,39 +57,40 @@ export default function Item({ label, onClick, icon: Icon, active, id, documentI
   }
 
   return (
-    <div
-      onClick={onClick} role='button'
-      style={{ paddingLeft: level ? `${(level * 12) + 12}px` : '12px' }}
-      className={cn(
-        'group min-h-[27px] text-sm py-1 pr-3 w-full hover:bg-primary/5 flex items-center text-muted-foreground font-medium',
-        active && 'bg-primary/5 text-primary'
-      )}
-    >
-      {!!id && (
-        <article
-          className='h-full mr-1 rounded-sm hover:bg-neutral-300 dark:hover:bg-neutral-600'
-          role='button'
-          onClick={handleExpand}
-        >
-          <ChevronIcon className='w-4 h-4 shrink-0 text-muted-foreground/50' />
-        </article>
-      )}
-      {
+    <>
+      <div
+        onClick={onClick} role='button'
+        style={{ paddingLeft: level ? `${(level * 12) + 12}px` : '12px' }}
+        className={cn(
+          'group min-h-[27px] text-sm py-1 pr-3 w-full hover:bg-primary/5 flex items-center text-muted-foreground font-medium',
+          active && 'bg-primary/5 text-primary'
+        )}
+      >
+        {!!id && (
+          <article
+            className='h-full mr-1 rounded-sm hover:bg-neutral-300 dark:hover:bg-neutral-600'
+            role='button'
+            onClick={handleExpand}
+          >
+            <ChevronIcon className='w-4 h-4 shrink-0 text-muted-foreground/50' />
+          </article>
+        )}
+        {
         documentIcon
           ? <article className='shrink-0 mr-2 text-[18px]'>{documentIcon}</article>
           : <Icon className='shrink-0 h-[18px] w-[18px] mr-2 text-muted-foreground' />
       }
-      <span className='truncate'>
-        {label}
-      </span>
-      {
+        <span className='truncate'>
+          {label}
+        </span>
+        {
         isSearch && (
           <kbd className='ml-auto pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100'>
             <span className='text-xs'>⌘</span>K
           </kbd>
         )
       }
-      {
+        {
         !!id && (
           <div className='flex items-center ml-auto gap-x-2'>
             <DropdownMenu>
@@ -120,7 +125,8 @@ export default function Item({ label, onClick, icon: Icon, active, id, documentI
           </div>
         )
       }
-    </div>
+      </div>
+    </>
   )
 }
 
