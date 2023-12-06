@@ -12,7 +12,6 @@ import { Button } from './ui/button'
 
 export default function Toolbar({ initialData, preview }) {
   const inputRef = useRef(null)
-  const [isEditing, setIsEditing] = useState(false)
   const [value, setValue] = useState(initialData.title)
 
   const update = useMutation(api.documents.update)
@@ -20,8 +19,6 @@ export default function Toolbar({ initialData, preview }) {
   const coverImageModal = useCoverImage()
 
   const { icon, coverImage, title } = initialData
-
-  const disabledInput = () => setIsEditing(false)
 
   const onInput = (value) => {
     setValue(value)
@@ -34,7 +31,6 @@ export default function Toolbar({ initialData, preview }) {
   const onKeyDown = (e) => {
     if (e.key === 'Enter') {
       e.preventDefault()
-      disabledInput()
     }
   }
 
@@ -124,7 +120,6 @@ export default function Toolbar({ initialData, preview }) {
           <section className='flex items-center w-full'>
             <TextareaAutosize
               ref={inputRef}
-              onBlur={disabledInput}
               onKeyDown={onKeyDown}
               value={value}
               onChange={(e) => onInput(e.target.value)}
