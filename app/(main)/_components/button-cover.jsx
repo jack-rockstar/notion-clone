@@ -91,7 +91,7 @@ export default function ButtonCover({ replaceUrl = undefined }) {
           variant='outline'
           size='sm'
         >
-          <ImageIcon className='w-4 h-4' />
+          <ImageIcon className='w-4 h-4 mr-1' />
           Change cover
         </Button>
       </DropdownMenuTrigger>

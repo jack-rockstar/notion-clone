@@ -10,6 +10,21 @@ import Menu from './menu'
 import Publish from './publish'
 import Title from './title'
 
+const MENU_ITEMS = [
+  {
+    title: 'Comments',
+    icon: MessageSquare
+  },
+  {
+    title: 'History',
+    icon: Clock
+  },
+  {
+    title: 'Star',
+    icon: Star
+  }
+]
+
 export default function Navbar({ isCollapsed, onResetWidth, id = null }) {
   const params = useParams()
   const document = useQuery(api.documents.getById, {
@@ -42,10 +57,18 @@ export default function Navbar({ isCollapsed, onResetWidth, id = null }) {
           <Title initialData={document} />
           <section className='flex items-center'>
             <Publish initialData={document} />
-            <Button size='icon' variant='ghost' className='focus-visible:ring-0 focus-visible:ring-offset-0 h-7 w-8'><MessageSquare className='h-4 w-4' /></Button>
-            <Button size='icon' variant='ghost' className='focus-visible:ring-0 focus-visible:ring-offset-0 h-7 w-8'><Clock className='h-4 w-4' /></Button>
-            <Button size='icon' variant='ghost' className='focus-visible:ring-0 focus-visible:ring-offset-0 h-7 w-8'><Star className='h-4 w-4' /></Button>
-
+            {
+              MENU_ITEMS.map(({ title, icon: Icon }) => (
+                <Button
+                  key={title}
+                  size='icon'
+                  variant='ghost'
+                  className='hidden md:flex lg:flex xl:flex focus-visible:ring-0 focus-visible:ring-offset-0 h-7'
+                >
+                  <Icon className='w-4 h-4' />
+                </Button>
+              ))
+            }
             <Menu document={document} />
           </section>
         </div>

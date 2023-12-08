@@ -64,7 +64,7 @@ export default function Publish({ initialData }) {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button size='sm' variant='ghost' className='focus-visible:ring-0 focus-visible:ring-offset-0'>
+        <Button size='sm' variant='ghost' className='text-xs md:text-sm lg:text-sm focus-visible:ring-0 focus-visible:ring-offset-0'>
           Publish
           {initialData.isPublished && (
             <Globe className='w-4 h-4 mt-2 text-sky-500' />

@@ -8,7 +8,7 @@ import { api } from '@/convex/_generated/api'
 import { cn } from '@/lib/utils'
 import { useUser } from '@clerk/nextjs'
 import { useMutation } from 'convex/react'
-import { ArrowDownToLine, FileUp, MoreHorizontal, Trash } from 'lucide-react'
+import { ArrowDownToLine, Clock, FileUp, MessageSquare, MoreHorizontal, Star, Trash } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 
@@ -26,6 +26,21 @@ const fonts = [
     title: 'Mono'
   }
 ]
+const MENU_ITEMS = [
+  {
+    title: 'Star',
+    icon: Star
+  },
+  {
+    title: 'Comments',
+    icon: MessageSquare
+  },
+  {
+    title: 'History',
+    icon: Clock
+  }
+]
+
 
 export default function Menu({ document }) {
   const router = useRouter()
@@ -60,6 +75,26 @@ export default function Menu({ document }) {
         alignOffset={8}
         forceMount
       >
+        <DropdownMenuItem className='focus:bg-white block md:hidden lg:hidden xl:hidden dark:focus:bg-[#1f1f1f]  cursor-pointer'>
+          <div className='w-full mx-2'>
+            <article className='grid items-center justify-center w-full grid-cols-3'>
+              {
+                MENU_ITEMS.map(({ title, icon: Icon }) => (
+                  <section
+                    key={title}
+                    className={cn(
+                      'flex flex-col col-span-1 items-center justify-center p-2 rounded cursor-pointer gap-y-2 hover:bg-accent'
+                    )}
+                    onClick={() => {}} role='button'
+                  >
+                    <Icon className='w-4 h-4' />
+                    <small className='text-xs font-normal text-black/90 dark:text-[#ffffff71] opacity-95'>{title}</small>
+                  </section>
+                ))
+              }
+            </article>
+          </div>
+        </DropdownMenuItem>
         <DropdownMenuItem className='focus:bg-white dark:focus:bg-[#1f1f1f]  cursor-pointer'>
           <div className='w-full mx-2'>
             <small className='text-xs font-normal text-black/90 dark:text-[#ffffff71] opacity-95 block mb-1'>Estilos</small>
