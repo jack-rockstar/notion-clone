@@ -55,7 +55,7 @@ export default function CoverImage({ url, inModal = false, preview }) {
         )
       }
       {url && !preview && (
-        <div className='absolute flex items-center opacity-0 group-hover:opacity-100 bottom-5 right-5 gap-x-2'>
+        <div className='absolute flex items-center opacity-100 md:opacity-0 lg:opacity-0 group-hover:opacity-100 bottom-5 right-5 gap-x-2'>
           <ButtonCover replaceUrl={url} />
           {/* <Button
             onClick={onOpen}
