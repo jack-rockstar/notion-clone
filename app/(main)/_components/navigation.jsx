@@ -27,7 +27,7 @@ export default function Navigation() {
   const isMobile = useMediaQuery('(max-width: 768px)')
   const [isResetting, setIsResetting] = useState(false)
   const [isCollapsed, setIsCollapsed] = useState(isMobile)
-  const createDocument = useMutation(api.documents.create)
+  const create = useMutation(api.documents.create)
   const isResizingRef = useRef(false)
   const sidebarRef = useRef(null)
   const navbarRef = useRef(null)
@@ -94,8 +94,8 @@ export default function Navigation() {
     }
   }
 
-  const handleCreateDoc = () => {
-    const promise = createDocument({ title: 'Untitled' })
+  const onCreateDoc = () => {
+    const promise = create({ title: 'Untitled' })
       .then((id) => {
         editor.setDoc(id)
         editor.onOpen()
@@ -130,7 +130,7 @@ export default function Navigation() {
           <Item label='Search' icon={Search} isSearch onClick={handleSearch} />
           <Item label='Setting' icon={Settings} onClick={handleSetting} />
           <Item
-            onClick={handleCreateDoc}
+            onClick={onCreateDoc}
             label='New page'
             icon={PlusCircle}
           />
@@ -138,7 +138,7 @@ export default function Navigation() {
         <div className='mt-4'>
           <DocumentList />
           <Item
-            onClick={handleCreateDoc}
+            onClick={onCreateDoc}
             icon={Plus}
             label='Add a page'
           />

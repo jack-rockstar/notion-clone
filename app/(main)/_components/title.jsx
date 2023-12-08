@@ -1,6 +1,6 @@
 'use client'
 
-import IconPicker from '@/components/icon-picker'
+import IconPicker from '@/app/(main)/_components/icon-picker'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'

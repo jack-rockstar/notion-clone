@@ -6,7 +6,7 @@ import Spinner from './spinner'
 
 const variants = {
   base:
-    'relative rounded-md flex justify-center items-center flex-col cursor-pointer min-h-[150px] min-w-[200px] border border-dashed border-gray-400 dark:border-gray-300 transition-colors duration-200 ease-in-out',
+    'relative rounded-md flex justify-center items-center flex-col cursor-pointer min-h-[150px] min-w-[200px] border border-dashed border-muted-foreground dark:border-muted-foreground transition-colors duration-200 ease-in-out',
   image:
     'border-0 p-0 min-h-0 min-w-0 relative shadow-md bg-slate-200 dark:bg-slate-900 rounded-md',
   active: 'border-2',
@@ -130,9 +130,9 @@ const SingleImageDropzone = forwardRef(
               )
             : (
               <div className='flex flex-col items-center justify-center text-xs text-gray-400'>
-                <UploadCloudIcon className='mb-2 h-7 w-7' />
+                <UploadCloudIcon className='mb-2 duration-1000 h-7 w-7 animate-bounce' />
                 <div className='text-gray-400'>
-                  Click or drag file to this area to upload
+                  Haga clic o arrastre el archivo a esta área para cargarlo.
                 </div>
               </div>
               )}

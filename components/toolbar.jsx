@@ -1,22 +1,25 @@
 'use client'
 
 import { api } from '@/convex/_generated/api'
-import { useCoverImage } from '@/hooks/use-cover-image'
-import { cn } from '@/lib/utils'
+import { useEdgeStore } from '@/lib/edgestore'
+import { cn, getFileByUrl, getRandomPath } from '@/lib/utils'
+import { coverImageStore } from '@/store/cover-image-store'
 import { useMutation } from 'convex/react'
 import { ImageIcon, Smile, X } from 'lucide-react'
+import { useParams } from 'next/navigation'
 import { useRef, useState } from 'react'
 import TextareaAutosize from 'react-textarea-autosize'
-import IconPicker from './icon-picker'
+import IconPicker from '../app/(main)/_components/icon-picker'
 import { Button } from './ui/button'
 
 export default function Toolbar({ initialData, preview }) {
   const inputRef = useRef(null)
   const [value, setValue] = useState(initialData.title)
-
   const update = useMutation(api.documents.update)
   const removeIcon = useMutation(api.documents.removeIcon)
-  const coverImageModal = useCoverImage()
+  const params = useParams()
+  const coverStore = coverImageStore()
+  const { edgestore } = useEdgeStore()
 
   const { icon, coverImage, title } = initialData
 
@@ -47,9 +50,22 @@ export default function Toolbar({ initialData, preview }) {
     })
   }
 
-  const handleOpen = () => {
-    coverImageModal.setDocId(initialData._id)
-    coverImageModal.onOpen()
+  const onCover = async () => {
+    coverStore.setDocId(initialData._id)
+    const fileRandom = getRandomPath(coverStore.getGallery())
+    const file = await getFileByUrl(fileRandom)
+    const res = await edgestore.publicFiles.upload({
+      file,
+      options: {
+        replaceTargetUrl: undefined
+      }
+    })
+
+    await update({
+      id: params.documentId,
+      coverImage: res.url
+    })
+    // coverStore.onOpen()
   }
 
   return (
@@ -96,7 +112,7 @@ export default function Toolbar({ initialData, preview }) {
         {
           !coverImage && !preview && (
             <Button
-              onClick={handleOpen}
+              onClick={onCover}
               className='text-xs text-muted-foreground'
               variant='outline'
               size='xs'

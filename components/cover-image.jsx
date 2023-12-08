@@ -1,12 +1,13 @@
 'use client'
 
+import ButtonCover from '@/app/(main)/_components/button-cover'
 import { Button } from '@/components/ui/button'
 import { api } from '@/convex/_generated/api'
-import { useCoverImage } from '@/hooks/use-cover-image'
+import { useEditor } from '@/hooks/use-editor'
 import { useEdgeStore } from '@/lib/edgestore'
 import { cn } from '@/lib/utils'
 import { useMutation } from 'convex/react'
-import { ImageIcon, X } from 'lucide-react'
+import { X } from 'lucide-react'
 import Image from 'next/image'
 import { useParams } from 'next/navigation'
 import { toast } from 'sonner'
@@ -14,17 +15,14 @@ import ConfirmModal from './modals/confirm-modal'
 import { Skeleton } from './ui/skeleton'
 
 export default function CoverImage({ url, inModal = false, preview }) {
-  console.log({ url, preview })
+  const params = useParams()
+  const editor = useEditor()
   const removeImage = useMutation(api.documents.removeImage)
   const { edgestore } = useEdgeStore()
-  const params = useParams()
-  const coverImage = useCoverImage()
 
-  const onOpen = () => coverImage.onReplace(url)
-
-  const onRemove = () => {
+  const onRemove = async () => {
     if (!url) return
-    const promise = removeImage({ id: coverImage.getDocId() ?? params.documentId })
+    const promise = removeImage({ id: editor.getDoc() ?? params.documentId })
       .then(() => {
         edgestore.publicFiles.delete({
           url
@@ -34,7 +32,7 @@ export default function CoverImage({ url, inModal = false, preview }) {
     toast.promise(promise, {
       loading: 'Removing image...',
       success: 'Image deleted!',
-      error: 'Failed to delete noiamgete'
+      error: 'Failed to delete image'
     })
   }
 
@@ -58,7 +56,8 @@ export default function CoverImage({ url, inModal = false, preview }) {
       }
       {url && !preview && (
         <div className='absolute flex items-center opacity-0 group-hover:opacity-100 bottom-5 right-5 gap-x-2'>
-          <Button
+          <ButtonCover replaceUrl={url} />
+          {/* <Button
             onClick={onOpen}
             className='text-xs text-muted-foreground'
             variant='outline'
@@ -66,7 +65,7 @@ export default function CoverImage({ url, inModal = false, preview }) {
           >
             <ImageIcon className='w-4 h-4' />
             Change cover
-          </Button>
+          </Button> */}
           <ConfirmModal onConfirm={onRemove}>
             <Button
               className='text-xs text-muted-foreground'

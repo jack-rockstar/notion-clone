@@ -173,7 +173,6 @@ font::selection {
 .custom-scrollbar::-webkit-scrollbar {
   width: 8px;
   background-color: #3c3d3f;
-  /* background-color: transparent; */
   border-radius: 10px;
 }
 
