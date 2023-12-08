@@ -11,6 +11,7 @@ import { useMutation } from 'convex/react'
 import { ImageIcon } from 'lucide-react'
 import { useParams } from 'next/navigation'
 import { useState } from 'react'
+import { toast } from 'sonner'
 
 const TABS_MENU = [
   {
@@ -33,6 +34,7 @@ export default function ButtonCover({ replaceUrl = undefined }) {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const coverImage = coverImageStore()
   const update = useMutation(api.documents.update)
+  const removeImage = useMutation(api.documents.removeImage)
   const { edgestore } = useEdgeStore()
   const editor = useEditor()
   const images = coverImage.getGallery()
@@ -65,11 +67,27 @@ export default function ButtonCover({ replaceUrl = undefined }) {
     }
   }
 
+  const onRemove = () => {
+    if (!replaceUrl) return
+    const promise = removeImage({ id: editor.getDoc() ?? params.documentId })
+      .then(() => {
+        edgestore.publicFiles.delete({
+          url: replaceUrl
+        })
+      })
+
+    toast.promise(promise, {
+      loading: 'Removing image...',
+      success: 'Image deleted!',
+      error: 'Failed to delete image'
+    })
+  }
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
-          className='text-xs text-muted-foreground'
+          className='w-auto h-8 py-2 text-xs border-none bg-accent hover:opacity-90'
           variant='outline'
           size='sm'
         >
@@ -99,6 +117,7 @@ export default function ButtonCover({ replaceUrl = undefined }) {
               className='self-center py-1.5 float-right'
               variant='ghost'
               size='sm'
+              onClick={onRemove}
             >
               Eliminar
             </Button>

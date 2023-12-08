@@ -99,11 +99,11 @@ export default function Toolbar({ initialData, preview }) {
         {!icon && !preview && (
           <IconPicker asChild onChange={onIconSelect}>
             <Button
-              className='text-xs text-muted-foreground'
+              className='text-xs bg-transparent border-none text-muted-foreground'
               variant='outline'
               size='xs'
             >
-              <Smile className='w-4 h-4 mr-2' />
+              <Smile className='w-4 h-4 mr-2 font-bold' />
               Add Icon
             </Button>
           </IconPicker>
@@ -112,7 +112,7 @@ export default function Toolbar({ initialData, preview }) {
           !coverImage && !preview && (
             <Button
               onClick={onCover}
-              className='text-xs text-muted-foreground'
+              className='text-xs bg-transparent border-none text-muted-foreground'
               variant='outline'
               size='xs'
             >
