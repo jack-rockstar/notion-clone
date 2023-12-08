@@ -4,6 +4,7 @@
     "./node_modules/standard/eslintrc.json"
   ],
   "rules": {
-    "space-before-function-paren": "off"
+    "space-before-function-paren": "off",
+    "no-multiple-empty-lines": "off"
   }
 }
