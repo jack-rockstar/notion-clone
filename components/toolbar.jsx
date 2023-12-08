@@ -78,7 +78,7 @@ export default function Toolbar({ initialData, preview }) {
           <IconPicker onChange={onIconSelect}>
             <p
               title='Remove icon' className={cn(
-                'absolute text-7xl transition -top-9 md:left-0 lg:-left-6 hover:opacity-75',
+                'absolute text-5xl md:text-7xl lg:text-7xl transition -top-8 md:-top-10 lg:-top-10 left-3 md:left-0 lg:-left-6 hover:opacity-75',
                 !coverImage && 'sticky'
               )}
             >
