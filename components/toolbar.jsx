@@ -51,7 +51,6 @@ export default function Toolbar({ initialData, preview }) {
   }
 
   const onCover = async () => {
-    coverStore.setDocId(initialData._id)
     const fileRandom = getRandomPath(coverStore.getGallery())
     const file = await getFileByUrl(fileRandom)
     const res = await edgestore.publicFiles.upload({
@@ -62,7 +61,7 @@ export default function Toolbar({ initialData, preview }) {
     })
 
     await update({
-      id: params.documentId,
+      id: initialData._id ?? params.documentId,
       coverImage: res.url
     })
     // coverStore.onOpen()
