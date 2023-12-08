@@ -78,7 +78,7 @@ export default function ButtonCover({ replaceUrl = undefined }) {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent
-        className='w-[490px] min-w-[180px] h-auto custom-srollbar  bg-white dark:bg-[#191919] mb-10'
+        className='w-[490px] max-w-[calc(100vw-24px)] h-auto custom-srollbar  bg-white dark:bg-[#191919] mb-10'
         align='end'
         alignOffset={6}
         forceMount
